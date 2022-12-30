@@ -1,5 +1,3 @@
-# nodejs-hw1
-
 list https://monosnap.com/file/WgqR4aug9uCxRn73JWeVbSxpq1MG7q
 
 get https://monosnap.com/file/k69IWvmxW90GhFgkz0V7bTfAaLRVAH
