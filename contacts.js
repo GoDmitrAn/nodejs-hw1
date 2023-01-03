@@ -4,38 +4,62 @@ const path = require("path");
 const contactsPath = path.resolve(__dirname, "db", "contacts.json");
 
 async function readDb() {
-  const dbRaw = await fs.readFile(contactsPath, "utf8");
-  const db = JSON.parse(dbRaw);
-  return db;
+  try {
+    const dbRaw = await fs.readFile(contactsPath, "utf8");
+    const db = JSON.parse(dbRaw);
+    return db;
+  } catch (error) {
+    console.log("Please reload", error);
+  }
 }
 async function writeDb(db) {
-  await fs.writeFile(contactsPath, JSON.stringify(db, null, 2));
+  try {
+    await fs.writeFile(contactsPath, JSON.stringify(db, null, 2));
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function listContacts() {
-  list = await readDb();
-  return list;
+  try {
+    list = await readDb();
+    return list;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function getContactById(contactId) {
-  const db = await readDb();
-  let contact = db.find((element) => element.id === String(contactId));
+  try {
+    const db = await readDb();
+    let contact = db.find((element) => element.id === String(contactId));
 
-  return contact;
+    return contact;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function removeContact(contactId) {
-  const db = await readDb();
-  index = db.findIndex((element) => element.id === String(contactId));
-  db.splice(index, 1);
-  await writeDb(db);
+  try {
+    const db = await readDb();
+    index = db.findIndex((element) => element.id === String(contactId));
+    db.splice(index, 1);
+    await writeDb(db);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function addContact(name, email, phone) {
-  id = nanoid();
-  const contactUser = { id, name, email, phone };
-  const db = await readDb();
-  db.push(contactUser);
-  await writeDb(db);
+  try {
+    id = nanoid();
+    const contactUser = { id, name, email, phone };
+    const db = await readDb();
+    db.push(contactUser);
+    await writeDb(db);
+  } catch (error) {
+    console.log(error);
+  }
 }
 module.exports = { listContacts, getContactById, removeContact, addContact };
